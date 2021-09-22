@@ -1,4 +1,4 @@
-package co.com.ceiba.mobile.pruebadeingreso.view
+package co.com.ceiba.mobile.pruebadeingreso.view.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
