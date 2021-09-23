@@ -1,8 +1,7 @@
 package co.com.ceiba.mobile.pruebadeingreso.data.local
 
-import co.com.ceiba.mobile.pruebadeingreso.data.model.UserEntity
+import co.com.ceiba.mobile.pruebadeingreso.data.model.*
 import co.com.ceiba.mobile.pruebadeingreso.data.model.UsersList
-import co.com.ceiba.mobile.pruebadeingreso.data.model.toUserList
 
 class LocalUsersDataSource(private val userDao: UserDao) {
 
@@ -12,5 +11,13 @@ class LocalUsersDataSource(private val userDao: UserDao) {
 
     suspend fun saveUsers(user: UserEntity) {
         userDao.saveUsers(user)
+    }
+
+    suspend fun getPost(id: Int): PostsList {
+        return userDao.getPostLocal(id).toPostList()
+    }
+
+    suspend fun savePost(post: PostEntity) {
+        userDao.savePost(post)
     }
 }
