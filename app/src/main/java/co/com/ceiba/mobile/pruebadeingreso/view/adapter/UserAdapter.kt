@@ -7,20 +7,13 @@ import androidx.recyclerview.widget.RecyclerView
 import co.com.ceiba.mobile.pruebadeingreso.core.BaseViewHolder
 import co.com.ceiba.mobile.pruebadeingreso.data.model.User
 import co.com.ceiba.mobile.pruebadeingreso.databinding.UserListItemBinding
+import co.com.ceiba.mobile.pruebadeingreso.view.MainActivity
 
-class UserAdapter(private val userList: List<User>, private val itemClickListener: OnClickListenerUser): RecyclerView.Adapter<BaseViewHolder<*>>() {
+class UserAdapter(private val userList: MutableList<User>, private val itemClickListener: OnClickListenerUser, private var listTemp: List<User> = userList.toList()): RecyclerView.Adapter<BaseViewHolder<*>>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<*> {
         val itemBinding = UserListItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        val holder = UserViewHolder(itemBinding)
-
-        itemBinding.root.setOnClickListener {
-            val position =
-                holder.bindingAdapterPosition.takeIf { it != DiffUtil.DiffResult.NO_POSITION }
-                    ?: return@setOnClickListener
-            itemClickListener.onUserClick(userList[position])
-        }
-        return  holder;
+        return UserViewHolder(itemBinding)
     }
 
     override fun onBindViewHolder(holder: BaseViewHolder<*>, position: Int) {
@@ -30,6 +23,18 @@ class UserAdapter(private val userList: List<User>, private val itemClickListene
     }
 
     override fun getItemCount(): Int = userList.size
+
+    fun userFilter(filterText: String): List<User> {
+        if (filterText.isEmpty()) return userList
+        userList.clear()
+        for (user in listTemp) {
+            if (user.name!!.lowercase().contains(filterText.lowercase())) {
+                userList.add(user)
+            }
+        }
+        notifyDataSetChanged()
+        return userList
+    }
 
     private inner class UserViewHolder(val binding: UserListItemBinding):
             BaseViewHolder<User>(binding.root) {
