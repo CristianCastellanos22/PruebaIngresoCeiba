@@ -1,40 +1,46 @@
 package co.com.ceiba.mobile.pruebadeingreso.data.model
 
+import android.os.Parcelable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import kotlinx.android.parcel.Parcelize
 
+@Parcelize
 data class User(
     val id: Int = -1,
     val name: String = "",
-    val userName: String = "",
+    val username: String = "",
     val email:String = "",
     val address: Address?,
     val phone: String = "",
     val website: String = "",
     val company: Company?,
-)
+): Parcelable
 
 data class UsersList(val result: List<User> = listOf())
 
+@Parcelize
 data class Address(
     val street: String = "",
     val suite: String = "",
     val city: String = "",
     val zipcode: String = "",
     val geo: Geo,
-)
+): Parcelable
 
+@Parcelize
 data class Geo(
     val lat: String = "",
     val lng: String = "",
-)
+): Parcelable
 
+@Parcelize
 data class Company(
     val name: String = "",
     val catchPhrase: String = "",
     val bs: String = "",
-)
+): Parcelable
 
 @Entity
 data class UserEntity(
@@ -42,7 +48,7 @@ data class UserEntity(
     val id: Int = -1,
     @ColumnInfo(name = "name")
     val name: String = "",
-    @ColumnInfo(name = "userName")
+    @ColumnInfo(name = "username")
     val userName: String = "",
     @ColumnInfo(name = "email")
     val email:String = "",
@@ -80,7 +86,7 @@ fun UserEntity.toUser(): User = User(
 fun User.toUserEntity(): UserEntity = UserEntity(
     this.id,
     this.name,
-    this.userName,
+    this.username,
     this.email,
     //(this.address.takeIf { it != null } ?:"") as Address,
     this.phone,
