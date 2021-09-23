@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".view.MainActivity">
 
     <RelativeLayout
@@ -29,12 +30,22 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerViewSearchResults"
-            android:layout_marginTop="@dimen/activity_vertical_margin"
+        <include
+            android:id="@+id/emptyView"
+            layout="@layout/empty_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/textInputLayoutSearch"/>
+            android:visibility="gone"
+            android:layout_below="@+id/textInputLayoutSearch"
+            />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewSearchResults"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/textInputLayoutSearch"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
     </RelativeLayout>
 
