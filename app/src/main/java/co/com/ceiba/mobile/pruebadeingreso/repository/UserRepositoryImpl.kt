@@ -8,8 +8,12 @@ import co.com.ceiba.mobile.pruebadeingreso.data.remote.RemoteUsersDataSource
 class UserRepositoryImpl(private val dataSourceRemote: RemoteUsersDataSource, private val dataSourceLocal: LocalUsersDataSource): UserRepository {
     override suspend fun getUsers(): UsersList {
         return if (InternetCheck.isNetworkAvailable()) {
-            dataSourceRemote.getUsers().forEach { user ->
-                dataSourceLocal.saveUsers(user.toUserEntity())
+            if (dataSourceLocal.getUsers().result.isNotEmpty()) {
+                dataSourceLocal.getUsers()
+            } else {
+                dataSourceRemote.getUsers().forEach { user ->
+                    dataSourceLocal.saveUsers(user.toUserEntity())
+                }
             }
             return dataSourceLocal.getUsers()
         } else {
@@ -19,10 +23,14 @@ class UserRepositoryImpl(private val dataSourceRemote: RemoteUsersDataSource, pr
 
     override suspend fun getPost(id: Int): PostsList {
         return if (InternetCheck.isNetworkAvailable()) {
-            dataSourceRemote.getPost(id).forEach { post ->
-                dataSourceLocal.savePost(post.toPostEntity())
+            if (dataSourceLocal.getPost(id).resultPost.isNotEmpty()) {
+                dataSourceLocal.getPost(id)
+            } else {
+                dataSourceRemote.getPost(id).forEach { post ->
+                    dataSourceLocal.savePost(post.toPostEntity())
+                }
+                return dataSourceLocal.getPost(id)
             }
-            return dataSourceLocal.getPost(id)
         } else {
             dataSourceLocal.getPost(id)
         }
