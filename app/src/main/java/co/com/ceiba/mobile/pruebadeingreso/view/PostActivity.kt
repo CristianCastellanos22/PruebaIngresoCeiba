@@ -1,23 +1,20 @@
 package co.com.ceiba.mobile.pruebadeingreso.view
 
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.get
 import co.com.ceiba.mobile.pruebadeingreso.core.Resource
-import co.com.ceiba.mobile.pruebadeingreso.data.local.AppDataBase
-import co.com.ceiba.mobile.pruebadeingreso.data.local.LocalUsersDataSource
 import co.com.ceiba.mobile.pruebadeingreso.data.model.User
-import co.com.ceiba.mobile.pruebadeingreso.data.remote.RemoteUsersDataSource
 import co.com.ceiba.mobile.pruebadeingreso.databinding.ActivityPostBinding
 import co.com.ceiba.mobile.pruebadeingreso.presentation.UserViewModel
 import co.com.ceiba.mobile.pruebadeingreso.presentation.UserViewModelFactory
-import co.com.ceiba.mobile.pruebadeingreso.repository.RetrofitClient
-import co.com.ceiba.mobile.pruebadeingreso.repository.UserRepositoryImpl
 import co.com.ceiba.mobile.pruebadeingreso.view.adapter.PostAdapter
 import co.com.ceiba.mobile.pruebadeingreso.view.utils.CustomDialog
+import co.com.ceiba.mobile.pruebadeingreso.view.utils.DaggerUsersComponent
+import co.com.ceiba.mobile.pruebadeingreso.view.utils.UsersModule
+import javax.inject.Inject
 
 class PostActivity : AppCompatActivity() {
 
@@ -25,23 +22,25 @@ class PostActivity : AppCompatActivity() {
     private lateinit var postViewModel: UserViewModel
     private lateinit var userItem: User
     private lateinit var dialogCus: CustomDialog
+    @Inject
+    lateinit var userViewModelFactory: UserViewModelFactory
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityPostBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        postViewModel = ViewModelProvider(
-            this, UserViewModelFactory(
-                UserRepositoryImpl(
-                    RemoteUsersDataSource(RetrofitClient.webService),
-                    LocalUsersDataSource(AppDataBase.getDatabase(applicationContext).userDao())
-                )
-            )
-        ).get()
-
-        dialogCus = CustomDialog(this)
+        initInject()
         getData()
+        componentsUi()
+    }
 
+    private fun initInject() {
+        DaggerUsersComponent.builder().usersModule(UsersModule(this)).build().inject(this)
+        postViewModel = ViewModelProvider(this, userViewModelFactory).get()
+        dialogCus = CustomDialog(this)
+    }
+
+    private fun componentsUi() {
         userItem.id.let {
             postViewModel.getPost(it).observe(this, { result ->
                 when(result) {
