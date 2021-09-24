@@ -13,7 +13,7 @@ import org.mockito.Mockito
 import org.mockito.junit.MockitoJUnitRunner
 
 @RunWith(MockitoJUnitRunner::class)
-class userRepositoryImplTest: TestCase() {
+class UserRepositoryImplTest: TestCase() {
     @Mock
     private lateinit var remoteUsersDataSource: RemoteUsersDataSource
 
