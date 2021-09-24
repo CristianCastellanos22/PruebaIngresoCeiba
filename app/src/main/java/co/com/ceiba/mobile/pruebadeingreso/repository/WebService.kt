@@ -2,9 +2,7 @@ package co.com.ceiba.mobile.pruebadeingreso.repository
 
 import co.com.ceiba.mobile.pruebadeingreso.data.model.Post
 import co.com.ceiba.mobile.pruebadeingreso.data.model.User
-import co.com.ceiba.mobile.pruebadeingreso.data.model.UsersList
 import co.com.ceiba.mobile.pruebadeingreso.rest.Endpoints
-import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

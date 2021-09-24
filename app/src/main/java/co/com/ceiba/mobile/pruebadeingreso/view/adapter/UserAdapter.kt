@@ -2,12 +2,10 @@ package co.com.ceiba.mobile.pruebadeingreso.view.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import co.com.ceiba.mobile.pruebadeingreso.core.BaseViewHolder
 import co.com.ceiba.mobile.pruebadeingreso.data.model.User
 import co.com.ceiba.mobile.pruebadeingreso.databinding.UserListItemBinding
-import co.com.ceiba.mobile.pruebadeingreso.view.MainActivity
 
 class UserAdapter(private val userList: MutableList<User>, private val itemClickListener: OnClickListenerUser, private var listTemp: List<User> = userList.toList()): RecyclerView.Adapter<BaseViewHolder<*>>() {
 
