@@ -70,6 +70,12 @@ dependencies {
 
     implementation'androidx.multidex:multidex:2.0.1'
 
+    //Mockito
+    implementation "org.mockito:mockito-inline:2.28.2"
+
+    testImplementation 'org.mockito:mockito-core:3.8.0'
+    androidTestImplementation 'org.mockito:mockito-android:3.8.0'
+
     annotationProcessor 'org.projectlombok:lombok:1.18.20'
     annotationProcessor 'org.parceler:parceler:1.1.13'
     implementation 'org.projectlombok:lombok:1.18.20'
